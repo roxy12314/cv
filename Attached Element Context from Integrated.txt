@@ -1,0 +1,67 @@
+Attached Element Context from Integrated Browser
+
+Element: a#modal-link.primary-btn
+
+URL: file:///D:/A%E5%AD%A6%E6%A0%A1%E4%B8%93%E7%94%A8/0910/index.html
+
+HTML Path: div.work-modal.is-open > div.modal-card > a#modal-link.primary-btn
+
+Outer HTML:
+```html
+<a id="modal-link" class="primary-btn" target="_blank" rel="noreferrer" href="https://youtu.be/RTl8vMJb4sA" hidden="">观看作品 ↗</a>
+```
+
+Dimensions:
+- top: 422px
+- left: 164px
+- width: 160px
+- height: 51px
+
+CSS:
+```css
+* { box-sizing: border-box; }
+a { color: inherit;
+  text-decoration: none; }
+.primary-btn, .secondary-btn { display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-weight: 700; }
+.primary-btn { background: linear-gradient(135deg, var(--deep), var(--primary));
+  color: white;
+  box-shadow: 0 20px 38px rgba(12, 52, 40, 0.28); }
+.primary-btn:hover, .secondary-btn:hover, .dot:hover { transform: translateY(-2px); }
+
+/* Inherited */
+body { font-family: "Inter", "Noto Sans SC", sans-serif; color: var(--text) }
+
+/* Resolved values */
+padding: 14px 22px;
+border-radius: 999px;
+border: 0px none rgb(255, 255, 255);
+text-decoration: rgb(255, 255, 255);
+transition: transform 0.2s, box-shadow 0.2s;
+align-items: center;
+box-shadow: rgba(12, 52, 40, 0.28) 0px 20px 38px 0px;
+box-sizing: border-box;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: inline-flex;
+font-family: Inter, "Noto Sans SC", sans-serif;
+font-weight: 700;
+height: 51.2px;
+justify-content: center;
+min-width: 160px;
+transform: matrix(1, 0, 0, 1, 0, -2);
+width: 160px;
+
+/* CSS variables */
+--deep: #0c3428;
+--primary: #1f5a45;
+--text: #102d24;
+```
