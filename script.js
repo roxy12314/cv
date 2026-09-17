@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     bamboo: ['AIGC MUSIC VIDEO / AIGC 音乐视频', 'Story of Bamboo 竹编情', '2:28 · October 2024 · Planner, Music maker', '以动画与音乐介绍传统竹编的历史演变，并展示竹文化如何进入当代日常生活。作品获全国大学生数字媒体科技作品及创意竞赛三等奖。'],
     resonance: ['DOCUMENTARY / 纪录片', 'Timeless Resonance 古韵新声', '9:33 · September 2023 · Planner, Director of photography', '跟随一位古琴传承人的日常，记录他的教学与演奏，尝试让古老乐器的声音和人的生活彼此照见。'],
     hunan: ['VARIETY SHOW / 综艺实践', '去湘当有味的地方2', '12 episodes · August 2024 · Planner, Executive director', '在湖南卫视导演组实习，参与节目策划与现场协作。节目走访洞庭湖、长株潭、雪峰山、大湘西与大湘南，探索地方美食与文化景观。'],
-    smg: ['NEW MEDIA / 新媒体运营', 'SMG（Shanghai Media Group）融媒体中心运营', 'Shanghai Media Group · Operation Intern', '负责综艺宣传与新媒体内容制作，累计完成 30 余条宣传视频，其中 5 条以上播放量超过 100 万。']
+    smg: ['NEW MEDIA / 新媒体运营', 'SMG 融媒体中心运营', 'Shanghai Media Group · Operation Intern', '负责综艺宣传与新媒体内容制作，累计完成 30 余条宣传视频，其中 5 条以上播放量超过 100 万。']
   };
-
   const setActiveSlide = (id) => {
     const target = document.getElementById(id);
     if (!target) return;
@@ -18,27 +17,42 @@ document.addEventListener('DOMContentLoaded', () => {
     dots.forEach((dot) => dot.classList.toggle('active', dot.dataset.target === id));
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
   const observer = new IntersectionObserver((entries) => {
     const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
     if (!visible) return;
     slides.forEach((slide) => slide.classList.toggle('active', slide.id === visible.target.id));
     dots.forEach((dot) => dot.classList.toggle('active', dot.dataset.target === visible.target.id));
   }, { threshold: [0.35, 0.6, 0.85] });
-
   slides.forEach((slide) => observer.observe(slide));
   triggerButtons.forEach((button) => button.addEventListener('click', (event) => {
-    if (button.dataset.target) {
-      event.preventDefault();
-      setActiveSlide(button.dataset.target);
-    }
+    if (button.dataset.target) { event.preventDefault(); setActiveSlide(button.dataset.target); }
   }));
-
   document.querySelectorAll('.filter-btn').forEach((button) => button.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach((item) => item.classList.toggle('active', item === button));
     document.querySelectorAll('.work-card').forEach((card) => { card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter; });
   }));
-
+  const copyButton = document.querySelector('[data-copy-wechat]');
+  const emailButton = document.querySelector('[data-copy-email]');
+  const copyStatus = document.querySelector('.copy-status');
+  const copyText = async (value, message) => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const fallback = document.createElement('textarea');
+      fallback.value = value;
+      fallback.style.position = 'fixed';
+      fallback.style.opacity = '0';
+      document.body.appendChild(fallback);
+      fallback.select();
+      document.execCommand('copy');
+      fallback.remove();
+    }
+    copyStatus.textContent = message;
+    copyStatus.classList.add('is-visible');
+    window.setTimeout(() => copyStatus.classList.remove('is-visible'), 2200);
+  };
+  copyButton.addEventListener('click', () => copyText(copyButton.dataset.copyWechat, '已复制微信号'));
+  emailButton.addEventListener('click', () => copyText(emailButton.dataset.copyEmail, '已复制邮箱'));
   const closeModal = () => { modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); };
   document.querySelectorAll('[data-open-work]').forEach((button) => button.addEventListener('click', () => {
     const project = projects[button.dataset.openWork];
@@ -55,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   document.querySelectorAll('[data-close-modal]').forEach((button) => button.addEventListener('click', closeModal));
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal(); });
-
   document.querySelectorAll('.story-card, .resume-item, .timeline-item').forEach((card, index) => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(18px)';
